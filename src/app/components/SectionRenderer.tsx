@@ -3,51 +3,78 @@
 import { useBuilderStore } from '@/app/store/builder';
 import { SectionType } from '@/types';
 
-export const SectionRenderer = ({
-  section,
-  index,
-}: {
-  section: SectionType;
-  index: number;
-}) => {
+export const SectionRenderer = ({ id }: { id: string }) => {
+  const section = useBuilderStore((state) =>
+    state.sections.find((s) => s.id === id)
+  );
   const updateSection = useBuilderStore((state) => state.updateSection);
   const removeSection = useBuilderStore((state) => state.removeSection);
 
+  if (!section) return null;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSection(index, {
-      ...section,
-      [e.target.name]: e.target.value,
+    e.stopPropagation(); // Prevent event bubbling
+    const { name, value } = e.target;
+    updateSection(section.id, {
+      [name]: value,
     });
   };
 
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    console.log('Removing section:', section.id); // Debug log
+    removeSection(section.id);
+  };
+
+  const handleInputFocus = (e: React.FocusEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+  };
+
+  const handleInputMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent drag initiation
+  };
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 border p-4 rounded-xl shadow-sm">
       <input
         name="title"
-        className="w-full border rounded p-2"
+        type="text"
+        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-text"
         placeholder="Title"
         value={section.title || ''}
         onChange={handleChange}
+        onFocus={handleInputFocus}
+        onMouseDown={handleInputMouseDown}
+        autoComplete="off"
       />
       <input
         name="description"
-        className="w-full border rounded p-2"
+        type="text"
+        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-text"
         placeholder="Description"
         value={section.description || ''}
         onChange={handleChange}
+        onFocus={handleInputFocus}
+        onMouseDown={handleInputMouseDown}
+        autoComplete="off"
       />
       <input
         name="image"
-        className="w-full border rounded p-2"
+        type="text"
+        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-text"
         placeholder="Image URL"
         value={section.image || ''}
         onChange={handleChange}
+        onFocus={handleInputFocus}
+        onMouseDown={handleInputMouseDown}
+        autoComplete="off"
       />
       <button
-        onClick={() => removeSection(index)}
-        className="text-red-500 hover:text-red-700 text-sm"
+        onClick={handleRemove}
+        onMouseDown={handleInputMouseDown}
+        className="text-red-500 hover:text-red-700 text-sm px-2 py-1 border border-red-300 rounded hover:bg-red-50 transition-colors cursor-pointer"
       >
-        Remove Section
+        🗑️ Remove Section
       </button>
     </div>
   );

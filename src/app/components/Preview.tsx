@@ -1,5 +1,3 @@
-
-// File: components/Preview.tsx
 'use client';
 
 import { useBuilderStore } from '@/app/store/builder';
@@ -10,9 +8,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
@@ -20,33 +18,49 @@ import { SortableSection } from './SortableSection';
 
 export const Preview = () => {
   const { sections, reorderSections } = useBuilderStore();
-  const sensors = useSensors(useSensor(PointerSensor));
+  
+  // Configure sensors to be less sensitive and avoid conflicts with inputs
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Require 8px of movement before drag starts
+      },
+    })
+  );
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id !== over?.id) {
       const oldIndex = sections.findIndex((s) => s.id === active.id);
-      const newIndex = sections.findIndex((s) => s.id === over.id);
-      reorderSections(oldIndex, newIndex);
+      const newIndex = sections.findIndex((s) => s.id === over?.id);
+      if (oldIndex !== -1 && newIndex !== -1) {
+        reorderSections(oldIndex, newIndex);
+      }
     }
   };
 
   return (
     <div className="bg-white p-4 rounded-2xl shadow-md h-full">
       <h2 className="text-xl font-semibold mb-4">Preview</h2>
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={sections.map((s) => s.id!)} strategy={verticalListSortingStrategy}>
-          <div className="space-y-4">
-            {sections.map((section, index) => (
-              <SortableSection key={section.id} id={section.id!}>
-                <div className="border rounded-xl p-4 bg-gray-50 shadow-sm transition hover:shadow">
-                  <SectionRenderer section={section} index={index} />
-                </div>
-              </SortableSection>
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      {sections.length === 0 ? (
+        <div className="text-gray-500 text-center py-8">
+          No sections yet. Add some sections to get started!
+        </div>
+      ) : (
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-4">
+              {sections.map((section) => (
+                <SortableSection key={section.id} id={section.id}>
+                  <div className="border rounded-xl p-4 bg-gray-50 shadow-sm transition hover:shadow relative">
+                    <SectionRenderer id={section.id} />
+                  </div>
+                </SortableSection>
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+      )}
     </div>
   );
 };

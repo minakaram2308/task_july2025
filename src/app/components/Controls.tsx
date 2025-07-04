@@ -20,6 +20,9 @@ export const Controls = () => {
       importJSON(result);
     };
     reader.readAsText(file);
+    
+    // Reset the input
+    e.target.value = '';
   };
 
   return (
@@ -47,12 +50,15 @@ export const Controls = () => {
         📤 Export JSON
       </button>
 
-      <input
-        type="file"
-        accept=".json"
-        onChange={handleImport}
-        className="w-full"
-      />
+      <label className="block">
+        <span className="text-sm text-gray-600">Import JSON:</span>
+        <input
+          type="file"
+          accept=".json"
+          onChange={handleImport}
+          className="w-full mt-1 text-sm"
+        />
+      </label>
     </div>
   );
 };
