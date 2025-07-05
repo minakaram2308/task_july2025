@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useBuilderStore } from '@/app/store/builder';
-import { SectionRenderer } from './SectionRenderer';
+import { useBuilderStore } from "@/app/store/builder";
+import { SectionRenderer } from "./SectionRenderer";
 import {
   DndContext,
   closestCenter,
@@ -9,21 +9,20 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { SortableSection } from './SortableSection';
+} from "@dnd-kit/sortable";
+import { SortableSection } from "./SortableSection";
 
 export const Preview = () => {
   const { sections, reorderSections } = useBuilderStore();
-  
-  // Configure sensors to be less sensitive and avoid conflicts with inputs
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Require 8px of movement before drag starts
+        distance: 8,
       },
     })
   );
@@ -47,8 +46,15 @@ export const Preview = () => {
           No sections yet. Add some sections to get started!
         </div>
       ) : (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={sections.map((s) => s.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <div className="space-y-4">
               {sections.map((section) => (
                 <SortableSection key={section.id} id={section.id}>

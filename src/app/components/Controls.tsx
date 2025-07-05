@@ -69,7 +69,6 @@ export const Controls = () => {
           📤 <span>Export JSON</span>
         </span>
 
-        {/* Glowing border effect */}
         <div
           className="absolute inset-0 z-0 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500
                opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500"
