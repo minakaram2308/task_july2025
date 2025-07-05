@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧩 Mini Website Builder
 
-## Getting Started
+**Mini Website Builder** is a dynamic visual editor built with Next.js and Zustand. It allows you to create mini websites by adding, editing, removing, and reordering sections — all stored locally or exported as JSON.
 
-First, run the development server:
+---
+
+## 🚀 Getting Started
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then, start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser at [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚙️ Features
 
-## Learn More
+- 🧱 **Section Library** – Add pre-built sections
+- ✏️ **Live Editing** – Modify section content in real time
+- 🧼 **Remove Sections** – Easily remove unnecessary blocks
+- 💾 **Save to Local Storage** – Persist changes between sessions
+- 📂 **Load from Local Storage** – Restore saved layouts
+- 📤 **Export JSON** – Download your design as `.json`
+- 📥 **Import JSON** – Upload a layout from a file
+- 🛎 **Notifications** – Clean feedback with react-hot-toast
+- 🎨 **Responsive Design** – Built with Tailwind CSS for modern UI
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js (App Router)** – React framework with routing and SSR
+- **Zustand** – Global state manager for managing sections
+- **Tailwind CSS** – Utility-first CSS framework
+- **react-hot-toast** – Toast notifications
+- **TypeScript** – Static typing for better DX
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+│
+├── components/
+│   ├── Controls.tsx           # Save, load, import, export
+│   ├── Preview.tsx            # Live preview of layout
+│   ├── SectionLibrary.tsx     # Available sections to add
+│   └── SectionRenderer.tsx    # Renders each section with editing
+│
+├── store/
+│   └── builder.ts             # Zustand store for sections
+|   └── types.ts               # types definition
+│
+├── page.tsx                   # Main page
+└── globals.css                # TailwindCSS
+```
+
+---
+
+## 📦 JSON Export Format
+
+When you click **Export**, your current section layout is saved as a downloadable `site-builder.json` file.
+
+**Example:**
+
+```json
+[
+  {
+    "id": "abc123",
+    "title": "Hero Section",
+    "description": "Main heading here",
+    "image": "https://example.com/image.png"
+  }
+]
+```
+
+Use the **Import JSON** button to load a previously saved file.
+
+---
+
+## 🧪 Notes
+
+- The builder uses `localStorage`, so ensure your browser supports it
+- State is managed using unique section IDs via `nanoid`
+- Controlled inputs ensure reactive updates and editing
+
+---
+
+## 🚀 Live Demo
+
+Check out the live demo of the Mini Website Builder:
+
+**🌐 [Live Demo](https://mini-website-builder-demo.vercel.app)**
+
+Try the app online and experience all the features without any setup required!
+
+---
+
+## 📚 Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Zustand Docs](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [React Hot Toast](https://react-hot-toast.com/)
