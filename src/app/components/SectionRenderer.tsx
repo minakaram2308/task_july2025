@@ -1,7 +1,6 @@
 'use client';
 
 import { useBuilderStore } from '@/app/store/builder';
-import { SectionType } from '@/types';
 
 export const SectionRenderer = ({ id }: { id: string }) => {
   const section = useBuilderStore((state) =>
@@ -21,17 +20,17 @@ export const SectionRenderer = ({ id }: { id: string }) => {
   };
 
   const handleRemove = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event bubbling
-    console.log('Removing section:', section.id); // Debug log
+    e.stopPropagation(); 
+    console.log('Removing section:', section.id);
     removeSection(section.id);
   };
 
   const handleInputFocus = (e: React.FocusEvent) => {
-    e.stopPropagation(); // Prevent event bubbling
+    e.stopPropagation(); 
   };
 
   const handleInputMouseDown = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent drag initiation
+    e.stopPropagation(); 
   };
 
   return (

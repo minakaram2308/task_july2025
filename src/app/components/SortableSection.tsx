@@ -28,7 +28,6 @@ export const SortableSection = ({ id, children }: SortableSectionProps) => {
   return (
     <div ref={setNodeRef} style={style}>
       <div className="relative">
-        {/* Drag handle - only this area should be draggable */}
         <div
           {...attributes}
           {...listeners}
@@ -37,7 +36,6 @@ export const SortableSection = ({ id, children }: SortableSectionProps) => {
         >
           ⋮⋮
         </div>
-        {/* Content area - should not be draggable */}
         <div className="pointer-events-auto">
           {children}
         </div>

@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { nanoid } from "nanoid";
-import { SectionType } from "@/types";
+import { SectionType } from "./types";
 import toast from "react-hot-toast";
 
 interface BuilderState {
